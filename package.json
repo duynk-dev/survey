@@ -7,7 +7,8 @@
     "develop": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
-    "strapi": "strapi"
+    "strapi": "strapi",
+    "dev": "strapi develop --watch-admin"
   },
   "devDependencies": {},
   "dependencies": {
@@ -20,7 +21,7 @@
     "name": "A Strapi developer"
   },
   "strapi": {
-    "uuid": "43a7d430-6e6f-4d73-8076-c697bbba6c2b"
+    "uuid": "b09850b5-9326-4a82-add8-a104a0a697d3"
   },
   "engines": {
     "node": ">=12.x.x <=16.x.x",

@@ -21,16 +21,6 @@ export default {
       en,
       vi,
     },
-    theme: {
-      colors: {
-        primary100: "#f6ecfc",
-        primary200: "#f6ecfc",
-        primary500: "#ae1c31",
-        primary600: "#ae1c3f",
-        primary700: "#ae1c3f",
-        danger700: "#b72b1a",
-      },
-    },
     // Disable video tutorials
     tutorials: false,
     // Disable notifications about new Strapi releases
