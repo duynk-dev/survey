@@ -1,0 +1,6 @@
+{
+    "app.components.LeftMenu.navbrand.title": "Dashboard",
+    "Auth.form.welcome.subtitle": "Log in to your account",
+    "app.components.HomePage.welcome.again": "Welcome Management System",
+    "Auth.form.emailOrUsername.placeholder": "User name or email"
+}
