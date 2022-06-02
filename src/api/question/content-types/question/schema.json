@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "questions",
+  "info": {
+    "singularName": "question",
+    "pluralName": "questions",
+    "displayName": "Question",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "question": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::question.question"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "survey_questions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::survey-question.survey-question",
+      "mappedBy": "question"
+    },
+    "order": {
+      "type": "integer"
+    },
+    "isText": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "reportName": {
+      "type": "string"
+    }
+  }
+}

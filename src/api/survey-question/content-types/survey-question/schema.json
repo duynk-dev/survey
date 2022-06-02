@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "survey_questions",
+  "info": {
+    "singularName": "survey-question",
+    "pluralName": "survey-questions",
+    "displayName": "SurveyQuestion",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "isCheckBox": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "question": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::question.question",
+      "inversedBy": "survey_questions"
+    }
+  }
+}
