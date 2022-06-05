@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "administratives",
+  "info": {
+    "singularName": "administrative",
+    "pluralName": "administratives",
+    "displayName": "Đơn vị hành chính",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "administrative": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::administrative.administrative"
+    },
+    "code": {
+      "type": "string"
+    },
+    "group": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::group.group"
+    },
+    "level": {
+      "type": "integer"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "survey_result_details",
+  "info": {
+    "singularName": "survey-result-detail",
+    "pluralName": "survey-result-details",
+    "displayName": "Kết quả chi tiết",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "cau_hoi": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::question.question"
+    },
+    "survey_result_id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "ket_qua_khao_sat": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::survey-result.survey-result",
+      "inversedBy": "ket_qua_chi_tiets"
+    }
+  }
+}

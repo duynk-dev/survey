@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "appendices",
+  "info": {
+    "singularName": "appendix",
+    "pluralName": "appendices",
+    "displayName": "\bPhụ lục",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "question": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::question.question",
+      "inversedBy": "appendices"
+    }
+  }
+}

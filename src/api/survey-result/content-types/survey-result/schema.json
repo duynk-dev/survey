@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "survey_results",
+  "info": {
+    "singularName": "survey-result",
+    "pluralName": "survey-results",
+    "displayName": "Kết quả khảo sát",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "khao_sat": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::survey.survey"
+    },
+    "huyen": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::administrative.administrative"
+    },
+    "xa": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::administrative.administrative"
+    },
+    "ap": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::administrative.administrative"
+    },
+    "tinh": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::administrative.administrative"
+    },
+    "code": {
+      "type": "string",
+      "unique": true
+    },
+    "ket_qua_chi_tiets": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::survey-result-detail.survey-result-detail",
+      "mappedBy": "ket_qua_khao_sat"
+    }
+  }
+}

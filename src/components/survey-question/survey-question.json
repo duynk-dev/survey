@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_survey_question_survey_questions",
+  "info": {
+    "displayName": "SurveyQuestion",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "isCheckBox": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

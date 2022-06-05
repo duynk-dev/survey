@@ -4,7 +4,7 @@
   "info": {
     "singularName": "question",
     "pluralName": "questions",
-    "displayName": "Question",
+    "displayName": "Câu hỏi",
     "description": ""
   },
   "options": {
@@ -16,20 +16,9 @@
       "type": "string",
       "required": true
     },
-    "question": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::question.question"
-    },
     "enabled": {
       "type": "boolean",
       "default": true
-    },
-    "survey_questions": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::survey-question.survey-question",
-      "mappedBy": "question"
     },
     "order": {
       "type": "integer"
@@ -41,6 +30,40 @@
     },
     "reportName": {
       "type": "string"
+    },
+    "survey": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::survey.survey",
+      "inversedBy": "questions"
+    },
+    "question": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::question.question"
+    },
+    "level": {
+      "type": "integer",
+      "default": 0
+    },
+    "SurveyQ": {
+      "type": "component",
+      "repeatable": true,
+      "component": "survey-question.survey-question"
+    },
+    "inline": {
+      "type": "boolean",
+      "default": false
+    },
+    "isMultiChoice": {
+      "type": "boolean",
+      "default": false
+    },
+    "appendices": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::appendix.appendix",
+      "mappedBy": "question"
     }
   }
 }
