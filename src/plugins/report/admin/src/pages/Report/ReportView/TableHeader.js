@@ -26,13 +26,11 @@ const styles = StyleSheet.create({
   col2: {
     width: "60%",
     height: "100%",
-    borderRight: 1,
   },
   col3: {
     width: "15%",
     height: "100%",
     textAlign: "center",
-    borderRight: 1,
   },
   col4: {
     width: "15%",

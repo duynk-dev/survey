@@ -5,7 +5,7 @@ import { isEmpty } from "lodash";
 const borderColor = "#90e5fc";
 const styles = StyleSheet.create({
   titleContainer: {
-    marginTop: 30,
+    marginTop: 10,
   },
   reportTitle: {
     fontSize: 13,

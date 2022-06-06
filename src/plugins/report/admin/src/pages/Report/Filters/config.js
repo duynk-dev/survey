@@ -64,7 +64,7 @@ export const searchFields = [
       },
     },
     queryInfos: {
-      endPoint: "/content-manager/relations/api::question.question/appendices",
+      endPoint: "/content-manager/relations/api::appendix.appendix/appendices",
       containsKey: "name",
       defaultParams: {},
       shouldDisplayRelationLink: true,

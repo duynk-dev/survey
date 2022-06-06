@@ -8,7 +8,10 @@ module.exports = {
 
     const phuLuc = await strapi.entityService.findOne(
       "api::appendix.appendix",
-      body.phu_luc.id
+      body.phu_luc.id,
+      {
+        populate: ["cau_hois", "cau_hois.SurveyQ"],
+      }
     );
 
     const phieuKhaoSat = {
@@ -25,7 +28,6 @@ module.exports = {
         populate: [
           "cau_hoi",
           "cau_hoi.survey",
-          "cau_hoi.appendices",
           "ket_qua_khao_sat",
           "ket_qua_khao_sat.tinh",
           "ket_qua_khao_sat.huyen",
@@ -37,6 +39,10 @@ module.exports = {
         sort: "cau_hoi.order:ASC",
       }
     );
-    return entries;
+    return {
+      header: phuLuc.name,
+      description: phuLuc.description,
+      data: phuLuc.cau_hois,
+    };
   },
 };

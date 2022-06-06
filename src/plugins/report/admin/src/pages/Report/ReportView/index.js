@@ -39,7 +39,7 @@ Font.register({
 const styles = StyleSheet.create({
   page: {
     fontFamily: "TimesNewRoman",
-    padding: 50,
+    padding: 60,
   },
 });
 

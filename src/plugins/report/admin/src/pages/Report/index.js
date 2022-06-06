@@ -44,7 +44,7 @@ const Survey = (props) => {
       khao_sat: general?.khao_sat,
       phu_luc: general?.phu_luc,
     });
-    //setData(result?.data);
+    setData(result?.data);
   };
   const invalidateResult = () => {
     return false;
@@ -146,32 +146,7 @@ const Survey = (props) => {
               height: "90vh",
             }}
           >
-            <ReportView
-              reportData={{
-                header: "PHỤ LỤC 1-CẤP HUYỆN",
-                description:
-                  "(Kèm theo báo cáo số     /BC-UBND ngày    /11/2022 của UBND huyện)",
-                columns: [
-                  {
-                    key: "stt",
-                    name: "STT",
-                  },
-                  {
-                    key: "noi_dung",
-                    name: "Nội dung/tiêu chí",
-                  },
-                  {
-                    key: "so_phieu",
-                    name: "Số phiếu",
-                  },
-                  {
-                    key: "ty_le",
-                    name: "Tỷ lệ (%)",
-                  },
-                ],
-                data: [],
-              }}
-            />
+            <ReportView reportData={data} />
           </PDFViewer>
         )}
       </Box>

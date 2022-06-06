@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 const TableItems = ({ items }) => (
   <View style={styles.tableContainer}>
     <TableHeader />
-    <TableRow items={[]} />
+    <TableRow items={items} />
   </View>
 );
 

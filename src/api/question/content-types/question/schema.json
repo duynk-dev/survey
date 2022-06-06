@@ -58,12 +58,6 @@
     "isMultiChoice": {
       "type": "boolean",
       "default": false
-    },
-    "appendices": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::appendix.appendix",
-      "mappedBy": "question"
     }
   }
 }

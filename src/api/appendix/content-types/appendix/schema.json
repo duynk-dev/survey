@@ -4,7 +4,7 @@
   "info": {
     "singularName": "appendix",
     "pluralName": "appendices",
-    "displayName": "Phụ lục",
+    "displayName": "Báo cáo",
     "description": ""
   },
   "options": {
@@ -15,14 +15,22 @@
     "name": {
       "type": "string"
     },
-    "question": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::question.question",
-      "inversedBy": "appendices"
-    },
     "filter": {
       "type": "json"
+    },
+    "cau_hois": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::question.question"
+    },
+    "appendices": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::appendix.appendix",
+      "private": true
+    },
+    "description": {
+      "type": "string"
     }
   }
 }

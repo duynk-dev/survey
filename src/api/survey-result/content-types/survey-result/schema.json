@@ -37,10 +37,6 @@
       "relation": "oneToOne",
       "target": "api::administrative.administrative"
     },
-    "code": {
-      "type": "string",
-      "unique": true
-    },
     "ket_qua_chi_tiets": {
       "type": "relation",
       "relation": "oneToMany",
