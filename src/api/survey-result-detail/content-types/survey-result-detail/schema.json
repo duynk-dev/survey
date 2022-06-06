@@ -31,6 +31,11 @@
       "relation": "manyToOne",
       "target": "api::survey-result.survey-result",
       "inversedBy": "ket_qua_chi_tiets"
+    },
+    "khao_sat": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::survey.survey"
     }
   }
 }

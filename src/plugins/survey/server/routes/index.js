@@ -7,4 +7,12 @@ module.exports = [
       policies: [],
     },
   },
+  {
+    method: "POST",
+    path: "/create-survey-result",
+    handler: "myController.createSurvey",
+    config: {
+      policies: [],
+    },
+  },
 ];

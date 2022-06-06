@@ -4,7 +4,7 @@
   "info": {
     "singularName": "appendix",
     "pluralName": "appendices",
-    "displayName": "\bPhụ lục",
+    "displayName": "Phụ lục",
     "description": ""
   },
   "options": {
@@ -20,6 +20,9 @@
       "relation": "manyToOne",
       "target": "api::question.question",
       "inversedBy": "appendices"
+    },
+    "filter": {
+      "type": "json"
     }
   }
 }

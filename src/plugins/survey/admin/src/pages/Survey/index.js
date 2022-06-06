@@ -21,23 +21,25 @@ import { searchFields } from "./Filters/config";
 import SelectWrapper from "../../components/SelectWrapper";
 import { clone, set } from "lodash";
 
-const Survey = (props) => {
+const Report = (props) => {
   const [data, setData] = useState();
   const { formatMessage } = useIntl();
   const { push } = useHistory();
-  const id = props.match.params.id ?? 1;
-  const [donViHanhChinh, setDonViHanhChinh] = useState({});
+  //const id = props.match.params.id ?? 1;
+  const [general, setGeneral] = useState({});
   const [result, setResult] = useState({});
   const toggleNotification = useNotification();
+  const [unlockApp, setUnLockApp] = useState(true);
 
   useEffect(() => {
-    getSurveyById();
-  }, [id]);
+    const khaoSat = general["khao_sat"];
+    getSurveyById(khaoSat?.id);
+  }, [general["khao_sat"]]);
 
   const handleChange = (e, item) => {
-    const tmp = clone(donViHanhChinh);
+    const tmp = clone(general);
     set(tmp, [item.name], e.target.value);
-    setDonViHanhChinh(tmp);
+    setGeneral(tmp);
   };
 
   const handleChangeResult = (e, item, parent) => {
@@ -46,9 +48,9 @@ const Survey = (props) => {
     if (item.isCheckBox) {
       if (!parent?.isMultiChoice) {
         if (e.target.checked) {
-          choice = item;
+          choice = [item];
         } else {
-          choice = null;
+          choice = [];
         }
       } else {
         choice = tmp[parent.id]?.choice || [];
@@ -69,18 +71,23 @@ const Survey = (props) => {
       set(tmp, [parent.id], {
         id: parent.id,
         name: parent.name,
-        choice: { ...item, value: e.target.value },
+        choice: [{ ...item, value: e.target.value }],
       });
     }
     setResult(tmp);
   };
 
-  const getSurveyById = async () => {
-    const result = await axiosInstance.get(
-      `/${pluginId}/get-survey-by-id/${id}`
-    );
-    setData(result?.data);
-    setResult(renderRecursiveInitData(result?.data));
+  const getSurveyById = async (id) => {
+    if (id) {
+      const result = await axiosInstance.get(
+        `/${pluginId}/get-survey-by-id/${id}`
+      );
+      setData(result?.data);
+      setResult(renderRecursiveInitData(result?.data));
+    } else {
+      setData();
+      setResult();
+    }
   };
   const renderRecursiveInitData = (data, tmp = {}) => {
     (data || []).map((item) => {
@@ -90,7 +97,7 @@ const Survey = (props) => {
         set(tmp, [item.id], {
           id: item.id,
           name: item.name,
-          choice: null,
+          choice: [],
         });
       }
       renderRecursiveInitData(question, tmp);
@@ -132,13 +139,9 @@ const Survey = (props) => {
                 return (
                   <div style={{ marginRight: "0.5rem", minWidth: "7rem" }}>
                     <Checkbox
-                      value={
-                        result?.[item.id]?.choice?.id
-                          ? result?.[item.id]?.choice?.id == el?.id
-                          : result?.[item.id]?.choice?.find(
-                              (v) => v?.id == el?.id
-                            )
-                      }
+                      value={result?.[item.id]?.choice?.find(
+                        (v) => v?.id == el?.id
+                      )}
                       onChange={(e) => handleChangeResult(e, el, item)}
                     >
                       {el.name}
@@ -167,9 +170,38 @@ const Survey = (props) => {
   };
 
   const invalidateResult = () => {
-    return Object.values(result).some(
-      (item) => item?.choice == null || item?.choice?.length == 0
+    return false;
+    // return (
+    //   result &&
+    //   Object.values(result).some(
+    //     (item) => item?.choice == null || item?.choice?.length == 0
+    //   )
+    // );
+  };
+
+  const handleSubmit = async () => {
+    setUnLockApp(true);
+    const body = {
+      surveyResult: general,
+      surveyResultDetails: Object.values(result),
+    };
+    const res = await axiosInstance.post(
+      `/${pluginId}/create-survey-result`,
+      body
     );
+    if (res?.data?.id) {
+      toggleNotification({
+        type: "success",
+        message: "Lưu thành công",
+      });
+      setResult(renderRecursiveInitData(data));
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+    }
+    setUnLockApp(false);
   };
 
   return (
@@ -191,13 +223,6 @@ const Survey = (props) => {
           {searchFields.map((item) => {
             const { name, fieldSchema, labelAction, metadatas, queryInfos } =
               item;
-            console.log({
-              ...queryInfos,
-              defaultParams: {
-                "filters[administrative][id][$eq]":
-                  donViHanhChinh[queryInfos.filter],
-              },
-            });
             return (
               <Box style={{ minWidth: 200, marginLeft: "1rem" }}>
                 <SelectWrapper
@@ -220,14 +245,14 @@ const Survey = (props) => {
                       ...(queryInfos.filter
                         ? {
                             "filters[administrative][id][$eq]":
-                              donViHanhChinh[queryInfos.filter]?.id || -1,
+                              general[queryInfos.filter]?.id || -1,
                           }
                         : null),
                     },
                   }}
                   placeholder={metadatas.label}
                   onChange={(e) => handleChange(e, item)}
-                  defaultValue={donViHanhChinh[name]}
+                  defaultValue={general[name]}
                 />
               </Box>
             );
@@ -235,15 +260,8 @@ const Survey = (props) => {
           <Box style={{ minWidth: 200, marginLeft: "1rem" }}>
             <Button
               data-testid="create-button"
-              onClick={() => {
-                console.log(result);
-                toggleNotification({
-                  type: "success",
-                  message: "Lưu thành công",
-                });
-                window.scrollTo(0, 0);
-              }}
-              //disabled={invalidateResult()}
+              onClick={handleSubmit}
+              disabled={!unlockApp && invalidateResult()}
             >
               {formatMessage({
                 id: "create",
@@ -253,18 +271,20 @@ const Survey = (props) => {
           </Box>
         </Flex>
       </Box>
-      <Box
-        background="neutral0"
-        hasRadius
-        shadow="filterShadow"
-        marginTop={1}
-        paddingTop={2}
-        paddingBottom={2}
-      >
-        {renderRecursive(data)}
-      </Box>
+      {data?.length > 0 && (
+        <Box
+          background="neutral0"
+          hasRadius
+          shadow="filterShadow"
+          marginTop={1}
+          paddingTop={2}
+          paddingBottom={2}
+        >
+          {renderRecursive(data)}
+        </Box>
+      )}
     </div>
   );
 };
 
-export default memo(Survey);
+export default memo(Report);

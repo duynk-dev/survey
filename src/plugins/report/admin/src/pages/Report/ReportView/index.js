@@ -1,0 +1,66 @@
+import React from "react";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Font,
+} from "@react-pdf/renderer";
+import TableItems from "./TableItems";
+import Header from "./Header";
+import TableFooter from "./TableFooter";
+
+// Register Font
+Font.register({
+  family: "TimesNewRoman",
+  fonts: [
+    {
+      src: require(`../TimesNewRoman/SVN-Times New Roman 2.ttf`),
+    },
+    {
+      src: require(`../TimesNewRoman/SVN-Times New Roman 2 bold.ttf`),
+      fontWeight: "bold",
+    },
+    {
+      src: require(`../TimesNewRoman/SVN-Times New Roman 2 italic.ttf`),
+      fontWeight: "normal",
+      fontStyle: "italic",
+    },
+    {
+      src: require(`../TimesNewRoman/SVN-Times New Roman 2 bold italic.ttf`),
+      fontWeight: "bold",
+      fontStyle: "italic",
+    },
+  ],
+});
+
+// Create styles
+const styles = StyleSheet.create({
+  page: {
+    fontFamily: "TimesNewRoman",
+    padding: 50,
+  },
+});
+
+// Create Document Component
+const ReportView = ({ reportData: { header, description, columns, data } }) => {
+  console.log(header, description, columns);
+  return (
+    <Document>
+      <Page orientation="portrait" size="A4" style={styles.page}>
+        <Header
+          data={{
+            header,
+            description,
+            columns,
+          }}
+        />
+        <TableItems items={data} />
+        {/* <TableFooter items={data} /> */}
+      </Page>
+    </Document>
+  );
+};
+
+export default ReportView;
