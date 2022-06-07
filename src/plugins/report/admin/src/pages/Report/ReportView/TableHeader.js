@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     border: 1,
     height: 50,
+    marginBottom: -1,
   },
   flexCenter: {
     flexDirection: "row",

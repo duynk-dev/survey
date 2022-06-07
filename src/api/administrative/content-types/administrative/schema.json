@@ -20,9 +20,6 @@
       "relation": "oneToOne",
       "target": "api::administrative.administrative"
     },
-    "code": {
-      "type": "string"
-    },
     "group": {
       "type": "relation",
       "relation": "oneToOne",

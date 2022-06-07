@@ -8,10 +8,11 @@ const styles = StyleSheet.create({
     //borderBottomWidth: 1,
     alignItems: "center",
     //textAlign: 'center',
-
+    flexWrap: "wrap",
     fontSize: 13,
     fontWeight: "bold",
-    borderBottom: 1,
+    border: 1,
+    marginBottom: -1,
     borderLeft: 1,
     borderRight: 1,
   },
@@ -45,26 +46,35 @@ const styles = StyleSheet.create({
 const TableRow = ({ items }) => {
   const rows = items.map((item, index) => {
     const surveyQ = item.SurveyQ || [];
+    const name = item.name.split(".");
+    let stt = "";
+    let content = "";
+    if (name.length == 1) {
+      content = name[0];
+    } else if (name.length >= 2) {
+      stt = `${name[0]}.`;
+      content = item.name.replace(stt, "").trim();
+    }
     return (
-      <Fragment>
-        <View style={styles.row}>
+      <View>
+        <View style={styles.row} break={true}>
           <View style={[styles.flexCenter, styles.col1]}>
-            <Text>{item.name.split(".")[0]}.</Text>
+            <Text>{stt || " "}</Text>
           </View>
           <View style={[styles.flexCenter, styles.col2]}>
-            <Text>{item.name.split(".")[1].trim()}</Text>
+            <Text>{content}</Text>
           </View>
           <View style={[styles.flexCenter, styles.col3]}>
-            <Text>0</Text>
+            <Text>{item?.total}</Text>
           </View>
           <View style={[styles.flexCenter, styles.col4, { borderRight: 0 }]}>
-            <Text>0</Text>
+            <Text>{item?.percent}</Text>
           </View>
         </View>
         {surveyQ.map((el, index) => {
           return (
             el.name && (
-              <View style={[styles.row, { fontWeight: "normal" }]}>
+              <View style={[styles.row, { fontWeight: "normal" }]} break={true}>
                 <View
                   style={[
                     styles.flexCenter,
@@ -78,18 +88,22 @@ const TableRow = ({ items }) => {
                   <Text>{el.name}</Text>
                 </View>
                 <View style={[styles.flexCenter, styles.col3]}>
-                  <Text>0</Text>
+                  <Text>{el?.count}</Text>
                 </View>
                 <View
                   style={[styles.flexCenter, styles.col4, { borderRight: 0 }]}
                 >
-                  <Text>0</Text>
+                  <Text>
+                    {item?.total == 0
+                      ? 0
+                      : ((el?.count / item?.total) * 100).toFixed(1)}
+                  </Text>
                 </View>
               </View>
             )
           );
         })}
-      </Fragment>
+      </View>
     );
   });
   return <Fragment>{rows}</Fragment>;

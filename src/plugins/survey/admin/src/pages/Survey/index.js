@@ -19,7 +19,8 @@ import { Box } from "@strapi/design-system/Box";
 import { Flex } from "@strapi/design-system/Flex";
 import { searchFields } from "./Filters/config";
 import SelectWrapper from "../../components/SelectWrapper";
-import { clone, set } from "lodash";
+import { clone, set, sortBy } from "lodash";
+import { Helmet } from "react-helmet";
 
 const Report = (props) => {
   const [data, setData] = useState();
@@ -30,10 +31,12 @@ const Report = (props) => {
   const [result, setResult] = useState({});
   const toggleNotification = useNotification();
   const [unlockApp, setUnLockApp] = useState(true);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const khaoSat = general["khao_sat"];
     getSurveyById(khaoSat?.id);
+    getTotal();
   }, [general["khao_sat"]]);
 
   const handleChange = (e, item) => {
@@ -89,11 +92,23 @@ const Report = (props) => {
       setResult();
     }
   };
+
+  const getTotal = async () => {
+    const result = await axiosInstance.post(`/${pluginId}/get-total-survey`, {
+      khao_sat: {
+        id: {
+          $eq: general?.khao_sat?.id || -1,
+        },
+      },
+    });
+    setTotal(result?.data);
+  };
+
   const renderRecursiveInitData = (data, tmp = {}) => {
     (data || []).map((item) => {
       const question = item?.question || [];
       const SurveyQ = item?.SurveyQ || [];
-      if (SurveyQ.length > 0) {
+      if (SurveyQ.length > 0 && SurveyQ.find((el) => el.isCheckBox)) {
         set(tmp, [item.id], {
           id: item.id,
           name: item.name,
@@ -107,7 +122,7 @@ const Report = (props) => {
 
   const renderRecursive = (data) => {
     return (data || []).map((item) => {
-      const question = item?.question || [];
+      const question = sortBy(item?.question || [], ["order"], ["ASC"]);
       const SurveyQ = item?.SurveyQ || [];
       return (
         <div
@@ -170,13 +185,13 @@ const Report = (props) => {
   };
 
   const invalidateResult = () => {
-    return false;
-    // return (
-    //   result &&
-    //   Object.values(result).some(
-    //     (item) => item?.choice == null || item?.choice?.length == 0
-    //   )
-    // );
+    if (!general?.khao_sat || !general?.huyen) return true;
+    return (
+      result &&
+      Object.values(result).some(
+        (item) => item?.choice == null || item?.choice?.length == 0
+      )
+    );
   };
 
   const handleSubmit = async () => {
@@ -190,6 +205,7 @@ const Report = (props) => {
       body
     );
     if (res?.data?.id) {
+      getTotal();
       toggleNotification({
         type: "success",
         message: "Lưu thành công",
@@ -210,6 +226,7 @@ const Report = (props) => {
         lineHeight: "1.5",
       }}
     >
+      <Helmet title={general?.khao_sat?.name || ""} />
       <Box
         background="neutral0"
         hasRadius
@@ -257,11 +274,11 @@ const Report = (props) => {
               </Box>
             );
           })}
-          <Box style={{ minWidth: 200, marginLeft: "1rem" }}>
+          <Box style={{ marginLeft: "1rem", marginRight: "1rem" }}>
             <Button
               data-testid="create-button"
               onClick={handleSubmit}
-              disabled={!unlockApp && invalidateResult()}
+              disabled={!unlockApp || invalidateResult()}
             >
               {formatMessage({
                 id: "create",
@@ -269,6 +286,7 @@ const Report = (props) => {
               })}
             </Button>
           </Box>
+          <Box>{`Số phiếu đã nhập: ${total}`}</Box>
         </Flex>
       </Box>
       {data?.length > 0 && (
@@ -278,7 +296,10 @@ const Report = (props) => {
           shadow="filterShadow"
           marginTop={1}
           paddingTop={2}
+          marginBottom={"1rem"}
           paddingBottom={2}
+          marginLeft={"1rem"}
+          marginRight={"1rem"}
         >
           {renderRecursive(data)}
         </Box>

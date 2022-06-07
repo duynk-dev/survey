@@ -22,6 +22,7 @@ import SelectWrapper from "../../components/SelectWrapper";
 import { clone, set } from "lodash";
 import { PDFViewer } from "@react-pdf/renderer";
 import ReportView from "./ReportView";
+import { Helmet } from "react-helmet";
 
 const Survey = (props) => {
   const [data, setData] = useState();
@@ -29,14 +30,13 @@ const Survey = (props) => {
   const { push } = useHistory();
   //const id = props.match.params.id ?? 1;
   const [general, setGeneral] = useState({});
-  const [result, setResult] = useState({});
-  const toggleNotification = useNotification();
   const [unlockApp, setUnLockApp] = useState(true);
 
   const handleChange = (e, item) => {
     const tmp = clone(general);
     set(tmp, [item.name], e.target.value);
     setGeneral(tmp);
+    setData();
   };
 
   const getReport = async () => {
@@ -68,6 +68,7 @@ const Survey = (props) => {
         lineHeight: "1.5",
       }}
     >
+      <Helmet title={general?.khao_sat?.name || ""} />
       <Box
         background="neutral0"
         hasRadius

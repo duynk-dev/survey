@@ -85,4 +85,16 @@ module.exports = {
     }
     return dataRes;
   },
+  async totalSurvey(ctx) {
+    const { userAbility, user } = ctx.state;
+    const { body } = ctx.request;
+    const count = await strapi.entityService.count(
+      "api::survey-result.survey-result",
+      {
+        filters: body,
+      }
+    );
+
+    return count;
+  },
 };

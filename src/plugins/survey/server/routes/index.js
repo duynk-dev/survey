@@ -15,4 +15,12 @@ module.exports = [
       policies: [],
     },
   },
+  {
+    method: "POST",
+    path: "/get-total-survey",
+    handler: "myController.totalSurvey",
+    config: {
+      policies: [],
+    },
+  },
 ];

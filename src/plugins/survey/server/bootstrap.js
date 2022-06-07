@@ -1,5 +1,22 @@
-'use strict';
+/* eslint-disable no-unreachable */
+"use strict";
 
-module.exports = ({ strapi }) => {
-  // bootstrap phase
+// Add permissions
+const RBAC_ACTIONS = [
+  {
+    section: "plugins",
+    displayName: "Access",
+    uid: "access",
+    pluginName: "survey",
+  },
+];
+
+/**
+ *
+ * @param {{strapi: import("@strapi/strapi").Strapi}} args
+ */
+module.exports = async ({ strapi }) => {
+  await strapi.admin.services.permission.actionProvider.registerMany(
+    RBAC_ACTIONS
+  );
 };

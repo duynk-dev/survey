@@ -41,14 +41,20 @@ const styles = StyleSheet.create({
     fontFamily: "TimesNewRoman",
     padding: 60,
   },
+  pageIndex: {
+    fontFamily: "TimesNewRoman",
+    fontSize: 13,
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+  },
 });
 
 // Create Document Component
 const ReportView = ({ reportData: { header, description, columns, data } }) => {
-  console.log(header, description, columns);
   return (
-    <Document>
-      <Page orientation="portrait" size="A4" style={styles.page}>
+    <Document title={header}>
+      <Page orientation="portrait" size="A4" style={styles.page} break={true}>
         <Header
           data={{
             header,
@@ -58,6 +64,11 @@ const ReportView = ({ reportData: { header, description, columns, data } }) => {
         />
         <TableItems items={data} />
         {/* <TableFooter items={data} /> */}
+        <Text
+          style={styles.pageIndex}
+          render={({ pageNumber, totalPages }) => `${pageNumber}`}
+          fixed
+        />
       </Page>
     </Document>
   );
