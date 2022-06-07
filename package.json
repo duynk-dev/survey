@@ -8,7 +8,9 @@
     "start": "strapi start",
     "build": "strapi build",
     "strapi": "strapi",
-    "dev": "strapi develop --watch-admin"
+    "dev": "strapi develop --watch-admin",
+    "upgrade-window": "@powershell copy ./src/@strapi/** ./node_modules/@strapi -Recurse -Force",
+    "upgrade-mac": "cp -r ./src/@strapi/** ./node_modules/@strapi"
   },
   "devDependencies": {},
   "dependencies": {
