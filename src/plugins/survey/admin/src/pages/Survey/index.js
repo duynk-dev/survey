@@ -195,7 +195,7 @@ const Report = (props) => {
   };
 
   const handleSubmit = async () => {
-    setUnLockApp(true);
+    setUnLockApp(false);
     const body = {
       surveyResult: general,
       surveyResultDetails: Object.values(result),
@@ -217,7 +217,7 @@ const Report = (props) => {
         behavior: "smooth",
       });
     }
-    setUnLockApp(false);
+    setUnLockApp(true);
   };
 
   return (
