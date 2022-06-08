@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 // Create Document Component
 const ReportView = ({ reportData: { header, description, columns, data } }) => {
   return (
-    <Document title={header}>
+    <Document title={header} subject={header}>
       <Page orientation="portrait" size="A4" style={styles.page} break={true}>
         <Header
           data={{

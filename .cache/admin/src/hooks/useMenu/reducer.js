@@ -10,25 +10,25 @@ const initialState = {
     {
       icon: Puzzle,
       intlLabel: {
-        id: 'global.plugins',
+        id: 'app.components.LeftMenuLinkContainer.listPlugins',
         defaultMessage: 'Plugins',
       },
       to: '/list-plugins',
       permissions: adminPermissions.marketplace.main,
     },
-    {
-      icon: ShoppingCart,
-      intlLabel: {
-        id: 'global.marketplace',
-        defaultMessage: 'Marketplace',
-      },
-      to: '/marketplace',
-      permissions: adminPermissions.marketplace.main,
-    },
+    // {
+    //   icon: ShoppingCart,
+    //   intlLabel: {
+    //     id: 'app.components.LeftMenuLinkContainer.installNewPlugin',
+    //     defaultMessage: 'Marketplace',
+    //   },
+    //   to: '/marketplace',
+    //   permissions: adminPermissions.marketplace.main,
+    // },
     {
       icon: Cog,
       intlLabel: {
-        id: 'global.settings',
+        id: 'app.components.LeftMenuLinkContainer.settings',
         defaultMessage: 'Settings',
       },
       to: '/settings',
