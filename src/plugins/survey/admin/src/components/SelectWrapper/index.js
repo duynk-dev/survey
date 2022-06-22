@@ -81,6 +81,10 @@ function SelectWrapper({
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  useEffect(()=>{
+    setOptions([]);
+  },[queryInfos?.defaultParams])
+
   const filteredOptions = useMemo(() => {
     return options.filter((option) => {
       if (!isEmpty(value)) {

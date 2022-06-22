@@ -1,10 +1,4 @@
 {
-  "_args": [
-    [
-      "@strapi/admin@4.1.12",
-      "/Users/sunny/Documents/Projects/survey-web"
-    ]
-  ],
   "_from": "@strapi/admin@4.1.12",
   "_id": "@strapi/admin@4.1.12",
   "_inBundle": false,
@@ -48,8 +42,9 @@
     "/@strapi/strapi"
   ],
   "_resolved": "https://registry.npmjs.org/@strapi/admin/-/admin-4.1.12.tgz",
-  "_spec": "4.1.12",
-  "_where": "/Users/sunny/Documents/Projects/survey-web",
+  "_shasum": "fc9aa42c31df5e9a6da862ed05fedf43786488cf",
+  "_spec": "@strapi/admin@4.1.12",
+  "_where": "D:\\survey-web\\node_modules\\@strapi\\strapi",
   "author": {
     "name": "Strapi Solutions SAS",
     "email": "hi@strapi.io",
@@ -58,6 +53,7 @@
   "bugs": {
     "url": "https://github.com/strapi/strapi/issues"
   },
+  "bundleDependencies": false,
   "dependencies": {
     "@babel/core": "7.16.7",
     "@babel/plugin-transform-runtime": "7.16.7",
@@ -155,6 +151,7 @@
     "webpackbar": "5.0.0-3",
     "yup": "^0.32.9"
   },
+  "deprecated": false,
   "description": "Strapi Admin",
   "devDependencies": {
     "duplicate-dependencies-webpack-plugin": "0.2.0",
