@@ -12,13 +12,12 @@
     "upgrade-window": "@powershell copy ./src/@strapi/** ./node_modules/@strapi -Recurse -Force",
     "upgrade-mac": "cp -r ./src/@strapi/** ./node_modules/@strapi"
   },
-  "devDependencies": {},
   "dependencies": {
     "@react-pdf/renderer": "^2.1.2",
     "@strapi/plugin-i18n": "4.1.12",
     "@strapi/plugin-users-permissions": "4.1.12",
     "@strapi/strapi": "4.1.12",
-    "better-sqlite3": "7.4.6"
+    "better-sqlite3": "^7.5.3"
   },
   "author": {
     "name": "A Strapi developer"
