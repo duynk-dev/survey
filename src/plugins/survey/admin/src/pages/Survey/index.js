@@ -32,12 +32,17 @@ const Report = (props) => {
   const toggleNotification = useNotification();
   const [unlockApp, setUnLockApp] = useState(true);
   const [total, setTotal] = useState(0);
+  const [currentId, setCurrentId] = useState();
 
   useEffect(() => {
     const khaoSat = general["khao_sat"];
     getSurveyById(khaoSat?.id);
     getTotal();
   }, [general["khao_sat"]]);
+
+  useEffect(() => {
+    getTotal();
+  }, [general?.["huyen"], general?.["xa"],general?.["ap"]]);
 
   const handleChange = (e, item) => {
     const tmp = clone(general);
@@ -94,13 +99,51 @@ const Report = (props) => {
   };
 
   const getTotal = async () => {
-    const result = await axiosInstance.post(`/${pluginId}/get-total-survey`, {
+    const filterTmp ={
       khao_sat: {
         id: {
           $eq: general?.khao_sat?.id || -1,
         },
       },
-    });
+    }
+
+    if(general?.huyen?.id){
+      filterTmp['huyen'] ={
+        id: {
+          $eq: general?.huyen?.id,
+        },
+      }
+    }
+
+    if(general?.xa?.id){
+      filterTmp['xa'] ={
+        id: {
+          $eq: general?.xa?.id,
+        },
+      }
+    }else{
+      filterTmp['xa'] ={
+        id: {
+          $null: true,
+        },
+      }
+    }
+
+    if(general?.ap?.id){
+      filterTmp['ap'] ={
+        id: {
+          $eq: general?.ap?.id,
+        },
+      }
+    }else{
+      filterTmp['ap'] ={
+        id: {
+          $null: true,
+        },
+      }
+    }
+
+    const result = await axiosInstance.post(`/${pluginId}/get-total-survey`, filterTmp);
     setTotal(result?.data);
   };
 
@@ -196,6 +239,7 @@ const Report = (props) => {
 
   const handleSubmit = async () => {
     setUnLockApp(false);
+    setCurrentId()
     const body = {
       surveyResult: general,
       surveyResultDetails: Object.values(result),
@@ -205,6 +249,7 @@ const Report = (props) => {
       body
     );
     if (res?.data?.id) {
+      setCurrentId(res?.data?.id)
       getTotal();
       toggleNotification({
         type: "success",
@@ -286,7 +331,8 @@ const Report = (props) => {
               })}
             </Button>
           </Box>
-          <Box>{`Số phiếu đã nhập: ${total}`}</Box>
+          <Box>{`Số phiếu đã nhập: `}<b>{total}</b></Box>
+          <Box style={{ marginLeft: "1rem", marginRight: "1rem" }}>{`Mã lưu: `} <b>{currentId || ''}</b></Box>
         </Flex>
       </Box>
       {data?.length > 0 && (
