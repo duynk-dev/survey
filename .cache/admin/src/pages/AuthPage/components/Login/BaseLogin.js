@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { Form, Link } from '@strapi/helper-plugin';
 import EyeStriked from '@strapi/icons/EyeStriked';
 import Eye from '@strapi/icons/Eye';
 import { Box } from '@strapi/design-system/Box';
 import { Stack } from '@strapi/design-system/Stack';
 import { Main } from '@strapi/design-system/Main';
 import { Flex } from '@strapi/design-system/Flex';
+import { Link } from '@strapi/design-system/Link';
 import { Button } from '@strapi/design-system/Button';
 import { TextInput } from '@strapi/design-system/TextInput';
 import { Checkbox } from '@strapi/design-system/Checkbox';
 import { Typography } from '@strapi/design-system/Typography';
+import { Form } from '@strapi/helper-plugin';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import styled from 'styled-components';
@@ -58,7 +59,7 @@ const Login = ({ onSubmit, schema, children }) => {
                   <Typography variant="epsilon" textColor="neutral600">
                     {formatMessage({
                       id: 'Auth.form.welcome.subtitle',
-                      defaultMessage: 'Log in to your Strapi account',
+                      defaultMessage: 'Log in to your account',
                     })}
                   </Typography>
                 </Box>
@@ -86,10 +87,10 @@ const Login = ({ onSubmit, schema, children }) => {
                   }
                   value={values.email}
                   onChange={handleChange}
-                  label={formatMessage({ id: 'Auth.form.email.label', defaultMessage: 'Email' })}
+                  label={formatMessage({ id: 'Auth.form.emailOrUsername.label', defaultMessage: 'Username' })}
                   placeholder={formatMessage({
-                    id: 'Auth.form.email.placeholder',
-                    defaultMessage: 'kai@doe.com',
+                    id: 'Auth.form.emailOrUsername.placeholder',
+                    defaultMessage: '',
                   })}
                   name="email"
                   required
@@ -106,7 +107,7 @@ const Login = ({ onSubmit, schema, children }) => {
                   onChange={handleChange}
                   value={values.password}
                   label={formatMessage({
-                    id: 'global.password',
+                    id: 'Auth.form.password.label',
                     defaultMessage: 'Password',
                   })}
                   name="password"

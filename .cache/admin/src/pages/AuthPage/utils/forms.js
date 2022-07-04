@@ -37,7 +37,6 @@ const forms = {
     schema: yup.object().shape({
       email: yup
         .string()
-        .email(translatedErrors.email)
         .required(translatedErrors.required),
       password: yup.string().required(translatedErrors.required),
       rememberMe: yup.bool().nullable(),
