@@ -98,9 +98,9 @@ const TableRow = ({ items }) => {
                     style={[styles.flexCenter, styles.col4, { borderRight: 0 }]}
                   >
                     <Text>
-                      {item?.total == 0
+                      {item?.totalByRow == 0
                         ? 0
-                        : ((el?.count / item?.total) * 100).toFixed(1)}
+                        : ((el?.count / item?.totalByRow) * 100).toFixed(1)}
                     </Text>
                   </View>
                 </View>
@@ -133,11 +133,11 @@ const TableRow = ({ items }) => {
                           { borderRight: 0 },
                         ]}
                       >
-                        <Text>
-                          {item?.total == 0
+                        {/* <Text>
+                          {item?.totalByRow == 0
                             ? 0
-                            : ((c?.count / item?.total) * 100).toFixed(1)}
-                        </Text>
+                            : ((c?.count / item?.totalByRow) * 100).toFixed(1)}
+                        </Text> */}
                       </View>
                     </View>
                   );

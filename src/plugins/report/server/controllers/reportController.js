@@ -79,6 +79,7 @@ module.exports = {
         0
       );
       cau_hoi["total"] = entriesTotal;
+      cau_hoi["totalByRow"] = totalByRow;
       cau_hoi["percent"] = entriesTotal > 0 ? 100 : 0;
       return cau_hoi;
     });
