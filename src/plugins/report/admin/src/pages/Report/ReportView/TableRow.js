@@ -74,32 +74,75 @@ const TableRow = ({ items }) => {
         {surveyQ.map((el, index) => {
           return (
             el.name && (
-              <View style={[styles.row, { fontWeight: "normal" }]} break={true}>
+              <>
                 <View
-                  style={[
-                    styles.flexCenter,
-                    styles.col1,
-                    { justifyContent: "center" },
-                  ]}
+                  style={[styles.row, { fontWeight: "normal" }]}
+                  break={true}
                 >
-                  <Text>{index + 1}</Text>
+                  <View
+                    style={[
+                      styles.flexCenter,
+                      styles.col1,
+                      { justifyContent: "center" },
+                    ]}
+                  >
+                    <Text>{index + 1}</Text>
+                  </View>
+                  <View style={[styles.flexCenter, styles.col2]}>
+                    <Text>{el.name}</Text>
+                  </View>
+                  <View style={[styles.flexCenter, styles.col3]}>
+                    <Text>{el?.count}</Text>
+                  </View>
+                  <View
+                    style={[styles.flexCenter, styles.col4, { borderRight: 0 }]}
+                  >
+                    <Text>
+                      {item?.total == 0
+                        ? 0
+                        : ((el?.count / item?.total) * 100).toFixed(1)}
+                    </Text>
+                  </View>
                 </View>
-                <View style={[styles.flexCenter, styles.col2]}>
-                  <Text>{el.name}</Text>
-                </View>
-                <View style={[styles.flexCenter, styles.col3]}>
-                  <Text>{el?.count}</Text>
-                </View>
-                <View
-                  style={[styles.flexCenter, styles.col4, { borderRight: 0 }]}
-                >
-                  <Text>
-                    {item?.total == 0
-                      ? 0
-                      : ((el?.count / item?.total) * 100).toFixed(1)}
-                  </Text>
-                </View>
-              </View>
+                {el.children.map((c) => {
+                  return (
+                    <View
+                      style={[
+                        styles.row,
+                        { fontWeight: "normal", fontStyle: "italic" },
+                      ]}
+                      break={true}
+                    >
+                      <View
+                        style={[
+                          styles.flexCenter,
+                          styles.col1,
+                          { justifyContent: "center" },
+                        ]}
+                      ></View>
+                      <View style={[styles.flexCenter, styles.col2]}>
+                        <Text>- {c.name}</Text>
+                      </View>
+                      <View style={[styles.flexCenter, styles.col3]}>
+                        <Text>{c?.count}</Text>
+                      </View>
+                      <View
+                        style={[
+                          styles.flexCenter,
+                          styles.col4,
+                          { borderRight: 0 },
+                        ]}
+                      >
+                        <Text>
+                          {item?.total == 0
+                            ? 0
+                            : ((c?.count / item?.total) * 100).toFixed(1)}
+                        </Text>
+                      </View>
+                    </View>
+                  );
+                })}
+              </>
             )
           );
         })}

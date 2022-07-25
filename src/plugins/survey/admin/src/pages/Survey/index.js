@@ -42,7 +42,7 @@ const Report = (props) => {
 
   useEffect(() => {
     getTotal();
-  }, [general?.["huyen"], general?.["xa"],general?.["ap"]]);
+  }, [general?.["huyen"], general?.["xa"], general?.["ap"]]);
 
   const handleChange = (e, item) => {
     const tmp = clone(general);
@@ -99,57 +99,62 @@ const Report = (props) => {
   };
 
   const getTotal = async () => {
-    const filterTmp ={
+    const filterTmp = {
       khao_sat: {
         id: {
           $eq: general?.khao_sat?.id || -1,
         },
       },
-    }
+    };
 
-    if(general?.huyen?.id){
-      filterTmp['huyen'] ={
+    if (general?.huyen?.id) {
+      filterTmp["huyen"] = {
         id: {
           $eq: general?.huyen?.id,
         },
-      }
+      };
     }
 
-    if(general?.xa?.id){
-      filterTmp['xa'] ={
+    if (general?.xa?.id) {
+      filterTmp["xa"] = {
         id: {
           $eq: general?.xa?.id,
         },
-      }
-    }else{
-      filterTmp['xa'] ={
+      };
+    } else {
+      filterTmp["xa"] = {
         id: {
           $null: true,
         },
-      }
+      };
     }
 
-    if(general?.ap?.id){
-      filterTmp['ap'] ={
+    if (general?.ap?.id) {
+      filterTmp["ap"] = {
         id: {
           $eq: general?.ap?.id,
         },
-      }
-    }else{
-      filterTmp['ap'] ={
+      };
+    } else {
+      filterTmp["ap"] = {
         id: {
           $null: true,
         },
-      }
+      };
     }
 
-    const result = await axiosInstance.post(`/${pluginId}/get-total-survey`, filterTmp);
+    const result = await axiosInstance.post(
+      `/${pluginId}/get-total-survey`,
+      filterTmp
+    );
     setTotal(result?.data);
   };
 
   const renderRecursiveInitData = (data, tmp = {}) => {
     (data || []).map((item) => {
-      const question = item?.question || [];
+      const question = (item?.question || []).filter(
+        (f) => f.skipRequired != true
+      );
       const SurveyQ = item?.SurveyQ || [];
       if (SurveyQ.length > 0 && SurveyQ.find((el) => el.isCheckBox)) {
         set(tmp, [item.id], {
@@ -239,7 +244,7 @@ const Report = (props) => {
 
   const handleSubmit = async () => {
     setUnLockApp(false);
-    setCurrentId()
+    setCurrentId();
     const body = {
       surveyResult: general,
       surveyResultDetails: Object.values(result),
@@ -249,7 +254,7 @@ const Report = (props) => {
       body
     );
     if (res?.data?.id) {
-      setCurrentId(res?.data?.id)
+      setCurrentId(res?.data?.id);
       getTotal();
       toggleNotification({
         type: "success",
@@ -331,8 +336,13 @@ const Report = (props) => {
               })}
             </Button>
           </Box>
-          <Box>{`Số phiếu đã nhập: `}<b>{total}</b></Box>
-          <Box style={{ marginLeft: "1rem", marginRight: "1rem" }}>{`Mã lưu: `} <b>{currentId || ''}</b></Box>
+          <Box>
+            {`Số phiếu đã nhập: `}
+            <b>{total}</b>
+          </Box>
+          <Box style={{ marginLeft: "1rem", marginRight: "1rem" }}>
+            {`Mã lưu: `} <b>{currentId || ""}</b>
+          </Box>
         </Flex>
       </Box>
       {data?.length > 0 && (

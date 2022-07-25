@@ -12,6 +12,13 @@
     "isCheckBox": {
       "type": "boolean",
       "default": true
+    },
+    "hideOnReport": {
+      "type": "boolean",
+      "default": false
+    },
+    "parentId": {
+      "type": "integer"
     }
   }
 }

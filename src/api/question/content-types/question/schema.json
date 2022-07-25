@@ -58,6 +58,9 @@
     "isMultiChoice": {
       "type": "boolean",
       "default": false
+    },
+    "skipRequired": {
+      "type": "boolean"
     }
   }
 }

@@ -41,6 +41,13 @@ module.exports = {
       }
     );
 
+    const entriesTotal = await strapi.entityService.count(
+      "api::survey-result.survey-result",
+      {
+        filters: { ...phuLuc.filter.ket_qua_khao_sat, ...phieuKhaoSat },
+      }
+    );
+
     const data = chain(entries)
       .groupBy("survey_result_id")
       .map((value, key) => ({ id: key * 1, count: value.length }))
@@ -48,18 +55,31 @@ module.exports = {
       .value();
 
     const dataCauHoi = (phuLuc.cau_hois || []).map((cau_hoi) => {
-      cau_hoi.SurveyQ = (cau_hoi.SurveyQ || []).map((element) => {
-        const result = data.find((d) => d.id == element.id);
-        set(element, "count", result ? result.count : 0);
-        return element;
-      });
+      cau_hoi.SurveyQ = (cau_hoi.SurveyQ || [])
+        .filter((item) => item.hideOnReport != true && item.parentId == null)
+        .map((element) => {
+          const result = data.find((d) => d.id == element.id);
+          const children = (cau_hoi.SurveyQ || []).filter(
+            (s) => s.parentId == element.id
+          );
+          element.children = [];
+          children.map((c) => {
+            const resultChildren = data.find((d) => d.id == c.id);
+            element.children.push({
+              ...c,
+              count: resultChildren ? resultChildren.count : 0,
+            });
+          });
+          set(element, "count", result ? result.count : 0);
+          return element;
+        });
 
       const totalByRow = cau_hoi.SurveyQ.reduce(
         (total, currentValue) => total + (currentValue.count || 0),
         0
       );
-      cau_hoi["total"] = totalByRow;
-      cau_hoi["percent"] = totalByRow > 0 ? 100 : 0;
+      cau_hoi["total"] = entriesTotal;
+      cau_hoi["percent"] = entriesTotal > 0 ? 100 : 0;
       return cau_hoi;
     });
 
