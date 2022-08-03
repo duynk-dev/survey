@@ -26,16 +26,16 @@ module.exports = {
     const entries = await strapi.entityService.findMany(
       "api::survey-result-detail.survey-result-detail",
       {
-        populate: [
-          "cau_hoi",
-          "cau_hoi.survey",
-          "ket_qua_khao_sat",
-          "ket_qua_khao_sat.tinh",
-          "ket_qua_khao_sat.huyen",
-          "ket_qua_khao_sat.xa",
-          "ket_qua_khao_sat.ap",
-          "khao_sat",
-        ],
+        // populate: [
+        //   "cau_hoi",
+        //   "cau_hoi.survey",
+        //   "ket_qua_khao_sat",
+        //   "ket_qua_khao_sat.tinh",
+        //   "ket_qua_khao_sat.huyen",
+        //   "ket_qua_khao_sat.xa",
+        //   "ket_qua_khao_sat.ap",
+        //   "khao_sat",
+        // ],
         filters: { ...phuLuc.filter, ...phieuKhaoSat },
         sort: "cau_hoi.order:ASC",
       }
