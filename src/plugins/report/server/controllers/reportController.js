@@ -22,7 +22,9 @@ module.exports = {
         },
       },
     };
-
+    if(body.xa){
+      phuLuc.filter.ket_qua_khao_sat.xa = body.xa;
+    }
     const entries = await strapi.entityService.findMany(
       "api::survey-result-detail.survey-result-detail",
       {

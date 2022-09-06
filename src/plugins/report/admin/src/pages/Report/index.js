@@ -20,7 +20,7 @@ import { Flex } from "@strapi/design-system/Flex";
 import { searchFields } from "./Filters/config";
 import SelectWrapper from "../../components/SelectWrapper";
 import { clone, set } from "lodash";
-import { PDFViewer } from "@react-pdf/renderer";
+import ReactPDF, { PDFViewer } from "@react-pdf/renderer";
 import ReportView from "./ReportView";
 import { Helmet } from "react-helmet";
 
@@ -39,12 +39,16 @@ const Survey = (props) => {
     setData();
   };
 
-  const getReport = async () => {
-    const result = await axiosInstance.post(`/${pluginId}/get-report`, {
+  const getReport = async (custom) => {
+    const result = await axiosInstance.post(`/${pluginId}/get-report`, custom ? custom: {
       khao_sat: general?.khao_sat,
       phu_luc: general?.phu_luc,
     });
-    setData(result?.data);
+    if(custom){
+      return result?.data;
+    }else{
+      setData(result?.data);
+    }
   };
   const invalidateResult = () => {
     return false;
@@ -59,6 +63,31 @@ const Survey = (props) => {
   const handleSubmit = async () => {
     setUnLockApp(true);
     await getReport();
+    setUnLockApp(false);
+  };
+
+  const handleSubmitAll = async () => {
+    setUnLockApp(true);
+    const result = await axiosInstance.post(`/content-manager/relations/api::survey-result.survey-result/xa?limit=100&filters[level][$eq]=2&filters[administrative][id][$eq]=2&start=0`,{"idsToOmit":[]});
+    for(let res of (result?.data || [])){
+      const dataReport =await getReport({
+        khao_sat: general?.khao_sat,
+        phu_luc: {...general?.phu_luc, name: `${general?.phu_luc?.name} ${res.name.toUpperCase()}`},
+        xa: {
+          id:{
+            $eq: res?.id
+          }
+        }
+      });
+      const blob = await ReactPDF.pdf(<ReportView reportData={dataReport}/>).toBlob();
+      const url = URL.createObjectURL(blob);
+      let aTag = document.createElement('a')
+      aTag.href =  url;
+      aTag.style = "display: none";
+      aTag.download = `${general?.phu_luc?.name} (${res.name})`;
+      document.body.appendChild(aTag);
+      aTag.click();
+    }
     setUnLockApp(false);
   };
 
@@ -125,6 +154,18 @@ const Survey = (props) => {
               {formatMessage({
                 id: "create",
                 defaultMessage: "Xem báo cáo",
+              })}
+            </Button>
+          </Box>
+          <Box style={{ minWidth: 200, marginLeft: "1rem" }}>
+            <Button
+              data-testid="create-button"
+              onClick={handleSubmitAll}
+              disabled={!unlockApp && invalidateResult()}
+            >
+              {formatMessage({
+                id: "create-xa",
+                defaultMessage: "Tải báo cáo xã",
               })}
             </Button>
           </Box>
