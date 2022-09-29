@@ -129,10 +129,10 @@ const Report = (props) => {
       };
     }
 
-    if (general?.ap?.id) {
+    if (general?.ap?.name) {
       filterTmp["ap"] = {
-        id: {
-          $eq: general?.ap?.id,
+        name: {
+          $eq: general?.ap?.name,
         },
       };
     } else {
