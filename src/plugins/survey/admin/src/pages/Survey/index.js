@@ -46,6 +46,7 @@ const Report = (props) => {
 
   const handleChange = (e, item) => {
     const tmp = clone(general);
+    console.log(tmp, [item.name], e.target.value)
     set(tmp, [item.name], e.target.value);
     setGeneral(tmp);
   };
@@ -311,9 +312,9 @@ const Report = (props) => {
                       ...queryInfos.defaultParams,
                       ...(queryInfos.filter
                         ? {
-                            "filters[administrative][id][$eq]":
-                              general[queryInfos.filter]?.id || -1,
-                          }
+                          "filters[administrative][id][$eq]":
+                            general[queryInfos.filter]?.id || -1,
+                        }
                         : null),
                     },
                   }}

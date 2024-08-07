@@ -21,7 +21,7 @@
       "default": true
     },
     "order": {
-      "type": "integer"
+      "type": "decimal"
     },
     "isText": {
       "type": "boolean",
@@ -30,12 +30,6 @@
     },
     "reportName": {
       "type": "string"
-    },
-    "survey": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::survey.survey",
-      "inversedBy": "questions"
     },
     "question": {
       "type": "relation",
@@ -61,6 +55,12 @@
     },
     "skipRequired": {
       "type": "boolean"
+    },
+    "survey": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::survey.survey",
+      "inversedBy": "questions"
     }
   }
 }
